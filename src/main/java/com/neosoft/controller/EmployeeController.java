@@ -1,5 +1,6 @@
 package com.neosoft.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,24 +40,10 @@ public class EmployeeController {
 	 * @return
 	 */
 	@RequestMapping(method=RequestMethod.POST , value="/add")
-	public @ResponseBody Employee addEmployee(@RequestParam String firstName,@RequestParam String lastName, @RequestParam String email, @RequestParam String department ,
-			@RequestParam String designation ,@RequestParam float salary , @RequestParam String dob, @RequestParam String city,
-			@RequestParam String doj , @RequestParam long pincode , @RequestParam String mobileNo) {
-		Employee em = new Employee();
-		em.setFirstName(firstName);
-		em.setLastName(lastName);
-		em.setDesignation(designation);
-		em.setDateOfBirth(dob);
-		em.setDepartment(department);
-		em.setSalary(salary);
-		em.setEmail(email);
-		em.setCity(city);
-		em.setDateOfJoining(doj);
-		em.setPincode(pincode);
-		em.setMobileNo(mobileNo);
-		employeeService.register(em);
-		return em;
+	public @ResponseBody String addEmployee(@RequestBody Employee emp) {
 		
+		employeeService.register(emp);
+		return "Employee "+emp.getFirstName()+" "+emp.getLastName()+" registered successfully with ID "+ emp.getEmpID();
 	}
 	
 	/**
@@ -70,7 +57,7 @@ public class EmployeeController {
 	 }
 	 
 	 /**
-	  * Search for the user with the given id and update the user
+	  * Search for the employee with the given id and update the user
 	  */
 	 @RequestMapping(method=RequestMethod.PUT , value="/update/{id}")
 	 public String updateUser(@PathVariable int id , @RequestBody EmployeeDto empDto) {
@@ -78,9 +65,44 @@ public class EmployeeController {
 	 }
 	 
 	 /**
-	  * Search employee either by firstname, lastname of pin code
+	  * Search for the employee with the given firstname
 	  */
+	 @RequestMapping(method=RequestMethod.GET , value="/name")
+	 public List<Employee> getEmployeeByFirstName(@RequestParam String name) {
+		return employeeService.searchEmployeeByFirstName(name);
+	 }
 	 
+	 /**
+	  * Search for the employee with the given lastname
+	  */
+	 @RequestMapping(method=RequestMethod.GET , value="/lastname")
+	 public List<Employee> getEmployeeByLastName(@RequestParam String lastName) {
+		 return employeeService.searchEmployeeByLastName(lastName);
+	 }
+	 
+	 /**
+	  * Search for the employee with the given pincode
+	  */
+	 @RequestMapping(method=RequestMethod.GET , value="/pincode")
+	 public List<Employee> getEmployeeByPinCode(@RequestParam int pincode) {
+		return employeeService.searchEmployeeByPinCode(pincode);
+	 }
+	 
+	 /**
+	  * Sort employee by Date of birth 
+	  */
+	 @RequestMapping(method=RequestMethod.GET, value="/sortbydateofbirth")
+	 public List<Employee> getSortByDateOfBirth(){
+		 return employeeService.sortByDateOfBirth();
+	 }
+	 
+	 /**
+	  * Sort employee by joining date
+	  */
+	 @RequestMapping(method=RequestMethod.GET, value="/sortbydateofjoining")
+	 public List<Employee> getSortByDateOfJoining(){
+		 return employeeService.sortByDateOfJoining();
+	 }
 	 
 	 
 }

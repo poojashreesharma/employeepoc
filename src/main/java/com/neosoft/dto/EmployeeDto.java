@@ -7,7 +7,7 @@ public class EmployeeDto {
 	
 	private @Getter @Setter String city;
 	
-	private @Getter @Setter long pincode;
+	private @Getter @Setter int pincode;
 	
 	private @Getter @Setter String department;
 	
