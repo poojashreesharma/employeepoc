@@ -104,5 +104,20 @@ public class EmployeeController {
 		 return employeeService.sortByDateOfJoining();
 	 }
 	 
+	 /**
+	  * Delete employee by id
+	  */
+	 @RequestMapping(method=RequestMethod.DELETE, value="/delete/{id}")
+	 public String delete(@PathVariable int id) {
+		 return employeeService.deleteById(id);
+	 }
+	 
+	 /**
+	  * Soft delete by id
+	  */
+	 @RequestMapping(method=RequestMethod.PUT, value="/softdelete/{id}")
+	 public String softDelete(@PathVariable int id) {
+		 return employeeService.softDeleteById(id);
+	 }
 	 
 }

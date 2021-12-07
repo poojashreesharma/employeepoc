@@ -22,6 +22,7 @@ import lombok.Setter;
 
 @Entity
 @Table(name="employee")
+
 public class Employee {
 	
 	
@@ -54,7 +55,7 @@ public class Employee {
 	private @Getter @Setter Date dateOfBirth;
 	
 	@Column(name="DOJ")
-	@PastOrPresent
+	@Past
 	private @Getter @Setter Date dateOfJoining;
 	
 	@Column(name="EMAIL")
@@ -66,11 +67,13 @@ public class Employee {
 	private @Getter @Setter String mobileNo;
 	
 	@Column(name="CITY")
-	@Range(min=3,max=20)
+	@Length(min=3,max=20)
 	private @Getter @Setter String city;
 	
 	@Column(name="PINCODE")
 	@Range(min = 100000,max=999999)
 	private @Getter @Setter int pincode;
+	
+	private @Getter @Setter boolean deleted = Boolean.FALSE;
 
 }

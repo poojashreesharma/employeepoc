@@ -89,8 +89,20 @@ public class EmployeeServiceImpl implements EmployeeService{
 	}
 	
 	@Override
-	public void deleteUser(int id) {
-		employeeRepository.deleteById(id);	
+	public String deleteById(int id) {
+		employeeRepository.deleteById(id);
+		return "Employee with id " + id + " removed from database." ;
+	}
+	
+	@Override
+	public String softDeleteById(int id) {
+		Optional<Employee> emp = employeeRepository.findById(id);
+		if (emp.isPresent()) {
+			emp.get().setDeleted(Boolean.TRUE);
+			employeeRepository.save(emp.get());
+			return "Employee with id " + id + " removed from database." ; 
+		}else
+			return "Employee with id "+id+ " not found";
 	}
 
 }

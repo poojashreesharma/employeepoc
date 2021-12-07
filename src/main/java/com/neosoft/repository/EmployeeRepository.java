@@ -16,5 +16,4 @@ public interface EmployeeRepository extends CrudRepository<Employee, Integer>{
 	
 	List<Employee> findByPincode(int pincode);
 	
-
 }

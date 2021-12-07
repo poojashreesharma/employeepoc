@@ -23,7 +23,9 @@ public interface EmployeeService {
 	
 	public List<Employee> searchEmployeeByPinCode(int pinCode);
 	
-	public void deleteUser (int id);
+	public String deleteById (int id);
+	
+	public String softDeleteById (int id);
 	
 	
 }
