@@ -9,10 +9,12 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.neosoft.dto.EmployeeDto;
 import com.neosoft.entity.Employee;
+import com.neosoft.exception.EmployeeNotFoundException;
 import com.neosoft.repository.EmployeeRepository;
 
 @Service
@@ -22,18 +24,18 @@ public class EmployeeServiceImpl implements EmployeeService{
 	EmployeeRepository employeeRepository ;
 
 	@Override
-	public Iterable<Employee> getAllEmployees() {
+	public List<Employee> getAllEmployees() {
 		return employeeRepository.findAll();
 	}
 
 	@Override
-	public void register(Employee emp) {
-		employeeRepository.save(emp);
+	public Employee register(Employee emp) {
+		return employeeRepository.save(emp);
 		
 	}
 
 	@Override
-	public String updateEmployee(int id , EmployeeDto empDto) {
+	public Employee updateEmployee(int id , EmployeeDto empDto) {
 		Optional<Employee> optional = employeeRepository.findById(id);
 		Employee employee = null;
 		if (optional.isPresent()) {
@@ -52,23 +54,15 @@ public class EmployeeServiceImpl implements EmployeeService{
 				employee.setMobileNo(empDto.getMobileNo());
 			
 		}else
-			return "Employee with " + id + "doesnot exist.";
+			throw new EmployeeNotFoundException("Employee with ID "+id+ " doesnot exist");
 		
 		employeeRepository.save(employee);
-		return "Employee updated successfully";
+		return employee;
 	}
 	
 	@Override
-	public List<Employee> sortByDateOfBirth (){
-		List<Employee> empList = StreamSupport.stream(employeeRepository.findAll().spliterator(),
-				false).sorted(Comparator.comparing(Employee::getDateOfBirth)).collect(Collectors.toList());
-		return empList;
-	}
-	
-	@Override
-	public List<Employee> sortByDateOfJoining (){
-		List<Employee> empList = StreamSupport.stream(employeeRepository.findAll().spliterator(),
-				false).sorted(Comparator.comparing(Employee::getDateOfJoining)).collect(Collectors.toList());
+	public List<Employee> sort(String sortBy){
+		List<Employee> empList = employeeRepository.findAll((Sort.by(Sort.Direction.ASC, sortBy)));
 		return empList;
 	}
 	
@@ -100,7 +94,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 		if (emp.isPresent()) {
 			emp.get().setDeleted(Boolean.TRUE);
 			employeeRepository.save(emp.get());
-			return "Employee with id " + id + " removed from database." ; 
+			return "Employee with id " + id + " disabled" ; 
 		}else
 			return "Employee with id "+id+ " not found";
 	}

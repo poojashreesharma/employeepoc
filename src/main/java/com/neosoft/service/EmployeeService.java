@@ -7,15 +7,13 @@ import com.neosoft.entity.Employee;
 
 public interface EmployeeService {
 	
-	public Iterable<Employee> getAllEmployees();
+	public List<Employee> getAllEmployees();
 	
-	public void register(Employee emp);
+	public Employee register(Employee emp);
 	
-	public String updateEmployee(int id , EmployeeDto empDto);
+	public Employee updateEmployee(int id , EmployeeDto empDto);
 	
-	public List<Employee> sortByDateOfBirth();
-	
-	public List<Employee> sortByDateOfJoining();
+	public List<Employee> sort(String sortBy);
 	
 	public List<Employee> searchEmployeeByFirstName(String firstName);
 	

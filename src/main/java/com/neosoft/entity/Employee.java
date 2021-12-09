@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.PastOrPresent;
@@ -16,6 +17,7 @@ import javax.validation.constraints.PastOrPresent;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -31,11 +33,11 @@ public class Employee {
 	private @Getter @Setter int empID;
 	
 	@Column(name="FIRST_NAME")
-	@NotNull
+	@NotNull(message = "First Name cannot be empty")
 	@Length(min=3,max=20)
 	private @Getter @Setter String firstName ;
 	
-	@NotNull
+	@NotNull(message = "Last Name cannot be empty")
 	@Column(name="LAST_NAME")
 	@Length(min=3,max=20)
 	private @Getter @Setter String lastName;
@@ -50,11 +52,13 @@ public class Employee {
 	@Digits(fraction = 2, integer = 6)
 	private @Getter @Setter float salary;
 	
-	@Column(name="DOB")
+	@Column(name="DATE_OF_BIRTH")
+	@DateTimeFormat(pattern = "dd-MM-yyyy")
 	@Past
 	private @Getter @Setter Date dateOfBirth;
 	
-	@Column(name="DOJ")
+	@Column(name="DATE_OF_JOINING")
+	@DateTimeFormat(pattern = "dd-MM-yyyy")
 	@Past
 	private @Getter @Setter Date dateOfJoining;
 	
