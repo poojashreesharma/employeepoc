@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -17,9 +16,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.neosoft.entity.Employee;
 import com.neosoft.repository.EmployeeRepository;
-
-
-
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace=Replace.NONE)
@@ -123,9 +119,6 @@ public class EmployeeRepositoryTest {
 		List<Employee> empList = employeeRepository.findAll();
 		String result = ow.writeValueAsString(empList);
 		assertNotNull(result);
-
-		System.out.println("userObjectSearchFunctionTest() : \n" + result);
-
 
 		List<Employee> findByFirstName = employeeRepository.findByFirstName("Poojashree");
 		String resultByName = ow.writeValueAsString(findByFirstName);
